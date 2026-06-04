@@ -1,7 +1,7 @@
 function App() {
   return (
     <div>
-      {/* Flashcard Learning App */}
+      {/* Aplikacija za ucenje kartica (flashcards) */}
     </div>
   )
 }

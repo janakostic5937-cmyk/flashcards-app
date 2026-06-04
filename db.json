@@ -1,0 +1,71 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "admin@flashcards.com",
+      "password": "adminpassword123",
+      "role": "admin"
+    },
+    {
+      "id": 2,
+      "email": "petar.petrovic@flashcards.com",
+      "password": "nastavnikpass456",
+      "role": "nastavnik"
+    },
+    {
+      "id": 3,
+      "email": "milica.milic@flashcards.com",
+      "password": "studentpass789",
+      "role": "student"
+    }
+  ],
+  "decks": [
+    {
+      "id": 1,
+      "nazivPredmeta": "Programiranje",
+      "authorId": 2
+    },
+    {
+      "id": 2,
+      "nazivPredmeta": "Matematika",
+      "authorId": 2
+    },
+    {
+      "id": 3,
+      "nazivPredmeta": "Istorija",
+      "authorId": 1
+    }
+  ],
+  "cards": [
+    {
+      "id": 1,
+      "deckId": 1,
+      "question": "Šta je 'closure' (zatvaranje) u JavaScript-u?",
+      "answer": "Closure je kombinacija funkcije i leksičkog okruženja unutar kojeg je ta funkcija definisana, što joj omogućava pristup promenljivim iz spoljašnjeg opsega čak i nakon što se spoljašnja funkcija izvršila."
+    },
+    {
+      "id": 2,
+      "deckId": 1,
+      "question": "Koja je razlika između == i === operatora u JavaScript-u?",
+      "answer": "== vrši poređenje po vrednosti uz konverziju tipova (loose equality), dok === vrši poređenje i po vrednosti i po tipu bez konverzije (strict equality)."
+    },
+    {
+      "id": 3,
+      "deckId": 2,
+      "question": "Kako glasi Pitagorina teorema?",
+      "answer": "U svakom pravouglom trouglu, kvadrat nad hipotenuzom jednak je zbiru kvadrata nad obe katete (a² + b² = c²)."
+    },
+    {
+      "id": 4,
+      "deckId": 2,
+      "question": "Koliki je zbir unutrašnjih uglova u trouglu?",
+      "answer": "Zbir unutrašnjih uglova u svakom trouglu iznosi 180 stepeni."
+    },
+    {
+      "id": 5,
+      "deckId": 3,
+      "question": "Kada je počeo Prvi svetski rat?",
+      "answer": "Prvi svetski rat je zvanično počeo 28. jula 1914. godine, mesec dana nakon sarajevskog atentata."
+    }
+  ]
+}
