@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 // komponenta za stranice
 function PagePlaceholder() {
@@ -38,6 +40,8 @@ function App() {
         <main className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             {/* Dinamičke rute za privremeni prikaz ostalih stranica */}
             <Route path="/:pageName" element={<PagePlaceholder />} />
             {/* Fallback za nepostojeće rute */}
