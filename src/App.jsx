@@ -5,6 +5,8 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import DataList from './pages/DataList';
+import DataDetail from './pages/DataDetail';
 
 // komponenta za stranice
 function PagePlaceholder() {
@@ -42,6 +44,8 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/decks" element={<DataList />} />
+              <Route path="/decks/:id" element={<DataDetail />} />
               {/* Dinamičke rute za privremeni prikaz ostalih stranica */}
               <Route path="/:pageName" element={<PagePlaceholder />} />
               {/* Fallback za nepostojeće rute */}

@@ -8,7 +8,7 @@ export default function Home() {
     {
       title: 'Smart Algoritam',
       description: 'Naš algoritam raspoređuje ponavljanje kartica u optimalnim sekundama, omogućavajući maksimalnu retenciju uz minimalan utrošak vremena.',
-      bg: 'bg-[#00f0b5]', // tirkizna
+      bg: 'bg-[#00f0b5]',
       tag: 'Rasporedjivanje kartica',
     },
     {
@@ -20,7 +20,7 @@ export default function Home() {
     {
       title: 'Statistika',
       description: 'Pratite svoj napredak kroz grafikone. Saznajte koje kartice vam zadaju najviše muka i locirajte uska grla u svom znanju.',
-      bg: 'bg-[#ffe600]', // yzuto
+      bg: 'bg-[#ffe600]',
       tag: 'Analitika progresa',
     },
   ];

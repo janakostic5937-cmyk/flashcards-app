@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "email": "petar.petrovic@flashcards.com",
       "password": "nastavnik1234",
       "role": "nastavnik",
@@ -9,7 +9,7 @@
       "adminRegCode": "REG-ADM-99"
     },
     {
-      "id": 2,
+      "id": "2",
       "email": "milica.milic@flashcards.com",
       "password": "student1234",
       "role": "student"
@@ -27,138 +27,138 @@
   ],
   "decks": [
     {
-      "id": 1,
+      "id": "1",
       "nazivPredmeta": "Programiranje",
       "authorId": 2
     },
     {
-      "id": 2,
+      "id": "2",
       "nazivPredmeta": "Matematika",
       "authorId": 2
     },
     {
-      "id": 3,
+      "id": "3",
       "nazivPredmeta": "Istorija",
       "authorId": 1
     }
   ],
   "cards": [
     {
-      "id": 1,
+      "id": "1",
       "deckId": 1,
       "question": "Šta je 'closure' (zatvaranje) u JavaScript-u?",
       "answer": "Closure je kombinacija funkcije i leksičkog okruženja unutar kojeg je ta funkcija definisana, što joj omogućava pristup promenljivim iz spoljašnjeg opsega čak i nakon što se spoljašnja funkcija izvršila."
     },
     {
-      "id": 2,
+      "id": "2",
       "deckId": 1,
       "question": "Koja je razlika između == i === operatora u JavaScript-u?",
       "answer": "== vrši poređenje po vrednosti uz konverziju tipova (loose equality), dok === vrši poređenje i po vrednosti i po tipu bez konverzije (strict equality)."
     },
     {
-      "id": 3,
+      "id": "3",
       "deckId": 2,
       "question": "Kako glasi Pitagorina teorema?",
       "answer": "U svakom pravouglom trouglu, kvadrat nad hipotenuzom jednak je zbiru kvadrata nad obe katete (a² + b² = c²)."
     },
     {
-      "id": 4,
+      "id": "4",
       "deckId": 2,
       "question": "Koliki je zbir unutrašnjih uglova u trouglu?",
       "answer": "Zbir unutrašnjih uglova u svakom trouglu iznosi 180 stepeni."
     },
     {
-      "id": 5,
+      "id": "5",
       "deckId": 3,
       "question": "Kada je počeo Prvi svetski rat?",
       "answer": "Prvi svetski rat je zvanično počeo 28. jula 1914. godine, mesec dana nakon sarajevskog atentata."
     },
     {
-      "id": 6,
+      "id": "6",
       "deckId": 1,
       "question": "Šta je 'hoisting' u JavaScript-u?",
       "answer": "Hoisting je mehanizam u JavaScript-u gde se deklaracije promenljivih i funkcija (ali ne i inicijalizacije) podižu na vrh njihovog opsega tokom kompilacije."
     },
     {
-      "id": 7,
+      "id": "7",
       "deckId": 3,
       "question": "Kada je počeo Drugi svetski rat?",
       "answer": "Drugi svetski rat je zvanično počeo 1. septembra 1939. godine, napadom Nemačke na Poljsku."
     },
     {
-      "id": 8,
+      "id": "8",
       "deckId": 1,
       "question": "Koja je razlika između 'let', 'const' i 'var' u JavaScript-u?",
       "answer": "Let i const imaju blokovsko opsegu (block scope) i ne podležu 'hoisting'-u na način da postaju undefined pre inicijalizacije. Var ima globalno ili funkcijsko opsegu i 'hoisting' se vrši tako da postaju undefined pre inicijalizacije. Const zahteva inicijalizaciju i ne može se reasignirati."
     },
     {
-      "id": 9,
+      "id": "9",
       "deckId": 2,
       "question": "Kako se izračunava površina kruga?",
       "answer": "Površina kruga se izračunava pomoću formule A = πr², gde je A površina, π (pi) je matematička konstanta (približno 3.14159), a r je poluprečnik kruga."
     },
     {
-      "id": 10,
+      "id": "10",
       "deckId": 3,
       "question": "Koja je najduža reka na svetu?",
       "answer": "Najduža reka na svetu je Nil, sa dužinom od oko 6.650 kilometara."
     },
     {
-      "id": 11,
+      "id": "11",
       "deckId": 1,
       "question": "Šta je 'event loop' u JavaScript-u?",
       "answer": "Event loop je mehanizam u JavaScript-u koji prati red poziva (call stack) i red čekanja (callback queue), te izvršava asinhrone operacije kada je call stack prazan."
     },
     {
-      "id": 12,
+      "id": "12",
       "deckId": 2,
       "question": "Koja je formula za izračunavanje površine pravougaonika?",
       "answer": "Površina pravougaonika se izračunava množenjem dužine stranice a sa dužinom stranice b: A = a × b."
     },
     {
-      "id": 13,
+      "id": "13",
       "deckId": 1,
       "question": "Objasni razliku između asinhronog i sinhronog izvršavanja u JavaScript-u.",
       "answer": "Sinhrono izvršavanje je sekvencijalno i blokirajuće - svaki zadatak se mora završiti pre nego što počne sledeći. Asinhrono izvršavanje omogućava nastavak izvršavanja drugih zadataka dok se neki proces (npr. dohvat podataka) izvršava u pozadini, čime se poboljšava performansa."
     },
     {
-      "id": 14,
+      "id": "14",
       "deckId": 2,
       "question": "Koja je formula za izračunavanje zapremine kvadra?",
       "answer": "Zapremina kvadra se izračunava množenjem dužine sve tri stranice: V = a × b × c."
     },
     {
-      "id": 15,
+      "id": "15",
       "deckId": 3,
       "question": "Koja je najviša planina na svetu?",
       "answer": "Najviša planina na svetu je Mont Everest, sa nadmorskom visinom od 8.848,86 metara."
     },
     {
-      "id": 16,
+      "id": "16",
       "deckId": 1,
       "question": "Šta je 'callback hell' i kako ga izbeći?",
       "answer": "Callback hell (pakao poziva) nastaje kada se veliki broj asinhronih operacija vezuje unutar jedne druge preko 'nested' callback funkcija, što otežava čitanje i održavanje koda. Izbegava se korišćenjem modernijih alata kao što su Promise i Async/Await, koji omogućavaju linearniji zapis asinhronog koda."
     },
     {
-      "id": 17,
+      "id": "17",
       "deckId": 2,
       "question": "Kako glasi Pitagorina teorema?",
       "answer": "U svakom pravouglom trouglu, kvadrat nad hipotenuzom jednak je zbiru kvadrata nad obe katete: a² + b² = c²."
     },
     {
-      "id": 18,
+      "id": "18",
       "deckId": 3,
       "question": "Koja je najveća pustinja na svetu?",
       "answer": "Najveća pustinja na svetu je Antarktik (hladna pustinja). Ako se misli na tople pustinje, onda je to Sahara."
     },
     {
-      "id": 19,
+      "id": "19",
       "deckId": 1,
       "question": "Objasni razliku između 'import' i 'export' u ES6 modulima.",
       "answer": "'Export' služi za iznošenje promenljivih, funkcija ili klasa iz jednog modula tako da postanu dostupni za korišćenje drugim modulima. 'Import' služi za uvoz tih izvezenih vrednosti u modul koji ih želi koristiti."
     },
     {
-      "id": 20,
+      "id": "20",
       "deckId": 2,
       "question": "Kako glasi formula za obim kruga?",
       "answer": "Obim kruga se izračunava po formuli O = 2πr, gde je r poluprečnik kruga."

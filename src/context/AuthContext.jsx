@@ -163,7 +163,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Funkcija za odjavu logout
+  // Funkcija za logout
   const logout = () => {
     setUser(null);
     setRole(null);
@@ -177,7 +177,6 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// Custom hook za lakše korišćenje AuthContext-a
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
