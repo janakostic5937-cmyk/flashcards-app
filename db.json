@@ -2,21 +2,27 @@
   "users": [
     {
       "id": 1,
-      "email": "admin@flashcards.com",
-      "password": "admin1234",
-      "role": "admin"
+      "email": "petar.petrovic@flashcards.com",
+      "password": "nastavnik1234",
+      "role": "nastavnik",
+      "adminKey": "REG-ADM-99",
+      "adminRegCode": "REG-ADM-99"
     },
     {
       "id": 2,
-      "email": "petar.petrovic@flashcards.com",
-      "password": "nastavnik1234",
-      "role": "nastavnik"
-    },
-    {
-      "id": 3,
       "email": "milica.milic@flashcards.com",
       "password": "student1234",
       "role": "student"
+    },
+    {
+      "id": "f6e4",
+      "fullName": "Jana Kostic",
+      "username": "janaveb1",
+      "email": "jana.kostic.5937@metropolitan.ac.rs",
+      "password": "jana01001",
+      "role": "student",
+      "institution": "Metropolitan",
+      "studyField": "SI/III"
     }
   ],
   "decks": [

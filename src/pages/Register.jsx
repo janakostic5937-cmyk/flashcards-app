@@ -1,9 +1,13 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
+import { useAuth } from '../context/AuthContext';
 
 export default function Register() {
+  const navigate = useNavigate();
+  const { register } = useAuth();
   const [role, setRole] = useState('user'); // 'user' or 'admin'
+  const [serverError, setServerError] = useState('');
   const [formData, setFormData] = useState({
     fullName: '',
     username: '',
@@ -129,8 +133,14 @@ export default function Register() {
     const isValid = await validateForm(formData);
     if (!isValid) return;
 
-    console.log('Register podaci:', { role, ...formData });
-    alert(`Registracija uspešna za ulogu: ${role === 'user' ? 'Korisnik' : 'Administrator'}`);
+    try {
+      setServerError('');
+      await register({ role, ...formData });
+      alert(`Registracija uspešna za ulogu: ${role === 'user' ? 'Korisnik' : 'Administrator'}`);
+      navigate('/');
+    } catch (err) {
+      setServerError(err.message);
+    }
   };
 
   return (
@@ -152,6 +162,12 @@ export default function Register() {
             Kreirajte svoj nalog
           </p>
         </div>
+
+        {serverError && (
+          <div className="mb-6 p-3 bg-red-100 border-4 border-black text-red-600 text-xs font-black uppercase tracking-wider shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            {serverError}
+          </div>
+        )}
 
         {/* Selektor za uloge admin/korisnik */}
         <div className="grid grid-cols-2 gap-2 mb-6 border-b-4 border-dashed border-black/20 pb-6">
