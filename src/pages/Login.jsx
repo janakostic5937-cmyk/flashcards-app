@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import * as yup from 'yup';
 
 export default function Login() {
   const [role, setRole] = useState('user'); // 'user' or 'admin'
@@ -8,17 +9,99 @@ export default function Login() {
     password: '',
     adminKey: '',
   });
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
+
+  const loginSchema = yup.object().shape({
+    usernameOrEmail: yup.string()
+      .required('Korisničko ime ili email je obavezno polje')
+      .test('valid-email-if-email', 'Uneti email nije validan', (value) => {
+        if (!value) return true;
+        // Ako sadrži @, proveravamo da li je u pitanju validan email
+        if (value.includes('@')) {
+          return yup.string().email().isValidSync(value);
+        }
+        return true;
+      }),
+    password: yup.string()
+      .required('Lozinka je obavezno polje')
+      .min(8, 'Lozinka mora imati najmanje 8 karaktera'),
+    adminKey: role === 'admin'
+      ? yup.string().required('Admin pristupni ključ je obavezan')
+      : yup.string().notRequired(),
+  });
+
+  const validateField = async (name, currentData) => {
+    try {
+      await loginSchema.validateAt(name, currentData);
+      setErrors((prev) => ({ ...prev, [name]: '' }));
+    } catch (err) {
+      setErrors((prev) => ({ ...prev, [name]: err.message }));
+    }
+  };
+
+  const validateForm = async (data) => {
+    try {
+      await loginSchema.validate(data, { abortEarly: false });
+      setErrors({});
+      return true;
+    } catch (err) {
+      const newErrors = {};
+      if (err.inner) {
+        err.inner.forEach((validationError) => {
+          newErrors[validationError.path] = validationError.message;
+        });
+      }
+      setErrors(newErrors);
+      return false;
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
+    const updatedData = {
+      ...formData,
       [name]: value,
-    }));
+    };
+    setFormData(updatedData);
+
+    if (touched[name]) {
+      validateField(name, updatedData);
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleBlur = (e) => {
+    const { name } = e.target;
+    setTouched((prev) => ({ ...prev, [name]: true }));
+    validateField(name, formData);
+  };
+
+  const handleRoleChange = (newRole) => {
+    setRole(newRole);
+    setFormData({
+      usernameOrEmail: '',
+      password: '',
+      adminKey: '',
+    });
+    setErrors({});
+    setTouched({});
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Označavamo sva polja kao taknuta
+    const allTouched = {};
+    Object.keys(formData).forEach((key) => {
+      if (role === 'admin' || key !== 'adminKey') {
+        allTouched[key] = true;
+      }
+    });
+    setTouched(allTouched);
+
+    const isValid = await validateForm(formData);
+    if (!isValid) return;
+
     console.log('Login podaci:', { role, ...formData });
     alert(`Uspesna prijava kao ${role === 'user' ? 'Korisnik' : 'Administrator'}`);
   };
@@ -47,7 +130,7 @@ export default function Login() {
         <div className="grid grid-cols-2 gap-2 mb-6 border-b-4 border-dashed border-black/20 pb-6">
           <button
             type="button"
-            onClick={() => setRole('user')}
+            onClick={() => handleRoleChange('user')}
             className={`py-2 px-4 border-2 border-black text-xs font-black uppercase tracking-wider transition-all duration-150 ${role === 'user'
               ? 'bg-[#ffe600] text-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] translate-x-[-1px] translate-y-[-1px]'
               : 'bg-white text-black hover:bg-slate-100 hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]'
@@ -57,7 +140,7 @@ export default function Login() {
           </button>
           <button
             type="button"
-            onClick={() => setRole('admin')}
+            onClick={() => handleRoleChange('admin')}
             className={`py-2 px-4 border-2 border-black text-xs font-black uppercase tracking-wider transition-all duration-150 ${role === 'admin'
               ? 'bg-[#00f0b5] text-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] translate-x-[-1px] translate-y-[-1px]'
               : 'bg-white text-black hover:bg-slate-100 hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]'
@@ -68,7 +151,7 @@ export default function Login() {
         </div>
 
         {/* Forma */}
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-5" noValidate>
           {/* Email/Username */}
           <div className="space-y-1.5">
             <label className="block text-xs font-black uppercase tracking-wide text-black">
@@ -77,12 +160,15 @@ export default function Login() {
             <input
               type="text"
               name="usernameOrEmail"
-              required
               value={formData.usernameOrEmail}
               onChange={handleChange}
+              onBlur={handleBlur}
               placeholder="unesite email ili korisničko ime"
               className="w-full border-2 border-black p-3 text-xs font-bold bg-white text-black focus:outline-none focus:bg-[#ffe600]/10 transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus:translate-x-[1px] focus:translate-y-[1px] focus:shadow-none placeholder-slate-400"
             />
+            {touched.usernameOrEmail && errors.usernameOrEmail && (
+              <p className="text-red-600 text-[10px] font-black uppercase tracking-wider mt-1">{errors.usernameOrEmail}</p>
+            )}
           </div>
 
           {/* Lozinka */}
@@ -101,12 +187,15 @@ export default function Login() {
             <input
               type="password"
               name="password"
-              required
               value={formData.password}
               onChange={handleChange}
+              onBlur={handleBlur}
               placeholder="••••••••"
               className="w-full border-2 border-black p-3 text-xs font-bold bg-white text-black focus:outline-none focus:bg-[#ffe600]/10 transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus:translate-x-[1px] focus:translate-y-[1px] focus:shadow-none placeholder-slate-400"
             />
+            {touched.password && errors.password && (
+              <p className="text-red-600 text-[10px] font-black uppercase tracking-wider mt-1">{errors.password}</p>
+            )}
           </div>
 
           {/* PKljuc admin */}
@@ -119,12 +208,15 @@ export default function Login() {
               <input
                 type="password"
                 name="adminKey"
-                required={role === 'admin'}
                 value={formData.adminKey}
                 onChange={handleChange}
+                onBlur={handleBlur}
                 placeholder="Unesite tajni ključ"
                 className="w-full border-2 border-black p-3 text-xs font-bold bg-white text-black focus:outline-none focus:bg-[#00f0b5]/10 transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus:translate-x-[1px] focus:translate-y-[1px] focus:shadow-none placeholder-slate-400 border-[#00f0b5] shadow-[#00f0b5]"
               />
+              {touched.adminKey && errors.adminKey && (
+                <p className="text-red-600 text-[10px] font-black uppercase tracking-wider mt-1">{errors.adminKey}</p>
+              )}
             </div>
           )}
 
