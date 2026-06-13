@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext';
 export default function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
-  const [role, setRole] = useState('user'); // 'user' or 'admin'
+  const [role, setRole] = useState('user');
   const [serverError, setServerError] = useState('');
   const [formData, setFormData] = useState({
     usernameOrEmail: '',
@@ -121,7 +121,7 @@ export default function Login() {
       {/* Glavni kontejner */}
       <div className="w-full max-w-md bg-white border-4 border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden">
 
-        {/* Dekorativno polje uloga*/}
+
         <div className="absolute top-0 right-0 border-l-4 border-b-4 border-black bg-[#ffe600] px-3 py-1 text-xs font-black uppercase">
           {role === 'user' ? 'Korisnik' : 'Admin'}
         </div>
@@ -168,7 +168,7 @@ export default function Login() {
 
         {/* Forma */}
         <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-          {/* Email/Username */}
+
           <div className="space-y-1.5">
             <label className="block text-xs font-black uppercase tracking-wide text-black">
               Korisničko ime ili Email
@@ -187,7 +187,7 @@ export default function Login() {
             )}
           </div>
 
-          {/* Lozinka */}
+
           <div className="space-y-1.5">
             <div className="flex justify-between items-center">
               <label className="block text-xs font-black uppercase tracking-wide text-black">
@@ -214,7 +214,7 @@ export default function Login() {
             )}
           </div>
 
-          {/* PKljuc admin */}
+
           {role === 'admin' && (
             <div className="space-y-1.5 animate-fadeIn">
               <label className="block text-xs font-black uppercase tracking-wide text-black flex items-center gap-1.5">
@@ -236,7 +236,7 @@ export default function Login() {
             </div>
           )}
 
-          {/* Zapamti checkbox */}
+
           <div className="flex items-center gap-2 pt-1">
             <div className="relative flex items-center">
               <input
@@ -265,7 +265,7 @@ export default function Login() {
             </label>
           </div>
 
-          {/* Submit dugme */}
+
           <div className="pt-2">
             <button
               type="submit"
@@ -277,7 +277,7 @@ export default function Login() {
           </div>
         </form>
 
-        {/* Link za Registraciju */}
+
         <div className="mt-8 pt-6 border-t-2 border-dashed border-black/20 text-center">
           <p className="text-xs font-bold text-slate-800 font-sans">
             Nemate nalog?{' '}

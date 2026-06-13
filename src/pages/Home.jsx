@@ -65,7 +65,7 @@ export default function Home() {
               href="#specs"
               className="px-6 py-3.5 border-2 border-black bg-white text-sm font-black tracking-wider text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all duration-150"
             >
-              Specifikacija
+              Kako radi?
             </a>
           </div>
         </div>
@@ -112,7 +112,7 @@ export default function Home() {
             </div>
           </div>
           <p className="mt-6 text-xs font-black uppercase text-black bg-white border-2 border-black px-3 py-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-            💡 Klikni na karticu
+            Klikni na karticu
           </p>
         </div>
 

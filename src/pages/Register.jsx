@@ -148,12 +148,11 @@ export default function Register() {
       {/* Glavni kontejner */}
       <div className="w-full max-w-xl bg-white border-4 border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden">
 
-        {/* Dekorativno polje uloga */}
+
         <div className="absolute top-0 right-0 border-l-4 border-b-4 border-black bg-[#ffe600] px-3 py-1 text-xs font-black uppercase">
           {role === 'user' ? 'Novi Korisnik' : 'Novi Admin'}
         </div>
 
-        {/* Naslov */}
         <div className="mb-6 mt-2">
           <h2 className="text-3xl font-black uppercase tracking-tight text-black">
             Registracija
@@ -415,7 +414,7 @@ export default function Register() {
             )}
           </div>
 
-          {/* Submit dugme */}
+
           <div className="pt-3">
             <button
               type="submit"
@@ -427,7 +426,6 @@ export default function Register() {
           </div>
         </form>
 
-        {/* Link za Login */}
         <div className="mt-6 pt-5 border-t-2 border-dashed border-black/20 text-center">
           <p className="text-xs font-bold text-slate-800 font-sans">
             Već imate nalog?{' '}

@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
       try {
         return JSON.parse(savedUser);
       } catch (error) {
-        console.error('Greška pri učitavanju korisnika iz localStorage:', error);
+        console.error('Greška pri učitavanju korisnika', error);
         localStorage.removeItem('auth_user');
       }
     }
@@ -24,8 +24,8 @@ export const AuthProvider = ({ children }) => {
       try {
         const parsedUser = JSON.parse(savedUser);
         return parsedUser.role === 'Administrator' ? 'Administrator' : 'Korisnik';
-      } catch {
-
+      } catch (err) {
+        console.error('Greška pri parsiranju uloge:', err);
       }
     }
     return null;
@@ -60,7 +60,7 @@ export const AuthProvider = ({ children }) => {
           throw new Error('Nemate administratorska prava pristupa.');
         }
         if (foundUser.adminKey !== adminKey) {
-          throw new Error('Pogrešan admin pristupni ključ.');
+          throw new Error('Pogrešan pristupni ključ.');
         }
       } else {
         if (foundUser.role === 'nastavnik' || foundUser.role === 'admin') {
@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }) => {
         }
       }
 
-      // Mapiranje uloga
+
       const mappedRole = (foundUser.role === 'admin' || foundUser.role === 'nastavnik') ? 'Administrator' : 'Korisnik';
 
       // Kreiranje objekta ulogovanog korisnika sa mapiranom ulogom

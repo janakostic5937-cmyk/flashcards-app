@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function DataDetail() {
   const { id } = useParams();
+  const { role } = useAuth();
 
   const [deck, setDeck] = useState(null);
   const [cards, setCards] = useState([]);
@@ -97,9 +99,12 @@ export default function DataDetail() {
     setAnsweredCards(new Set());
   };
 
-  // Post za slanje forme za novu karticu
   const handleAddCard = async (e) => {
     e.preventDefault();
+    if (role !== 'Administrator') {
+      setFormMessage({ type: 'error', text: 'Nemate privilegije za dodavanje kartica.' });
+      return;
+    }
     if (!newQuestion.trim() || !newAnswer.trim()) {
       setFormMessage({ type: 'error', text: 'Oba polja su obavezna!' });
       return;
@@ -206,7 +211,7 @@ export default function DataDetail() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        <div className="lg:col-span-7 space-y-8">
+        <div className={role === 'Administrator' ? "lg:col-span-7 space-y-8" : "lg:col-span-12 space-y-8 max-w-4xl mx-auto w-full"}>
           <div className="border-4 border-black bg-white p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
             <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tight border-b-2 border-black pb-3 mb-6">
               Proveri znanje
@@ -268,7 +273,7 @@ export default function DataDetail() {
                   </div>
                 </div>
 
-                {/* Kontrole / Akcije */}
+                {/* Kontrole */}
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
                   <div className="flex gap-2 flex-grow">
                     <button
@@ -339,65 +344,67 @@ export default function DataDetail() {
         </div>
 
         {/* Forma za dodavanje kartice */}
-        <div className="lg:col-span-5">
-          <div className="border-4 border-black bg-white p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-            <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tight border-b-2 border-black pb-3 mb-6">
-              + Dodaj Karticu
-            </h2>
-            <p className="text-xs font-bold text-slate-700 font-sans mb-6 leading-relaxed">
-              Kreirajte novu karticu u ovom špilu.
-            </p>
+        {role === 'Administrator' && (
+          <div className="lg:col-span-5">
+            <div className="border-4 border-black bg-white p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+              <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tight border-b-2 border-black pb-3 mb-6">
+                + Dodaj Karticu
+              </h2>
+              <p className="text-xs font-bold text-slate-700 font-sans mb-6 leading-relaxed">
+                Kreirajte novu karticu u ovom špilu.
+              </p>
 
-            <form onSubmit={handleAddCard} className="space-y-6">
-              {/* Pitanje */}
-              <div className="space-y-2">
-                <label className="block text-xs font-black uppercase tracking-wider">
-                  Pitanje:
-                </label>
-                <textarea
-                  rows="3"
-                  value={newQuestion}
-                  onChange={(e) => setNewQuestion(e.target.value)}
-                  className="w-full border-4 border-black p-3 font-mono text-xs font-bold placeholder-slate-400 bg-[#ebebeb] focus:bg-white focus:outline-none focus:ring-0"
-                ></textarea>
-              </div>
+              <form onSubmit={handleAddCard} className="space-y-6">
+                {/* Pitanje */}
+                <div className="space-y-2">
+                  <label className="block text-xs font-black uppercase tracking-wider">
+                    Pitanje:
+                  </label>
+                  <textarea
+                    rows="3"
+                    value={newQuestion}
+                    onChange={(e) => setNewQuestion(e.target.value)}
+                    className="w-full border-4 border-black p-3 font-mono text-xs font-bold placeholder-slate-400 bg-[#ebebeb] focus:bg-white focus:outline-none focus:ring-0"
+                  ></textarea>
+                </div>
 
-              {/* Odgovor */}
-              <div className="space-y-2">
-                <label className="block text-xs font-black uppercase tracking-wider">
-                  Odgovor:
-                </label>
-                <textarea
-                  rows="3"
-                  value={newAnswer}
-                  onChange={(e) => setNewAnswer(e.target.value)}
-                  className="w-full border-4 border-black p-3 font-mono text-xs font-bold placeholder-slate-400 bg-[#ebebeb] focus:bg-white focus:outline-none focus:ring-0"
-                ></textarea>
-              </div>
+                {/* Odgovor */}
+                <div className="space-y-2">
+                  <label className="block text-xs font-black uppercase tracking-wider">
+                    Odgovor:
+                  </label>
+                  <textarea
+                    rows="3"
+                    value={newAnswer}
+                    onChange={(e) => setNewAnswer(e.target.value)}
+                    className="w-full border-4 border-black p-3 font-mono text-xs font-bold placeholder-slate-400 bg-[#ebebeb] focus:bg-white focus:outline-none focus:ring-0"
+                  ></textarea>
+                </div>
 
-              {/* Status poruka */}
-              {formMessage && (
-                <div
-                  className={`border-2 border-black p-3 text-xs font-black uppercase ${formMessage.type === 'success' ? 'bg-[#00f0b5] text-black' : 'bg-[#ff4d00] text-white'
+                {/* Status poruka */}
+                {formMessage && (
+                  <div
+                    className={`border-2 border-black p-3 text-xs font-black uppercase ${formMessage.type === 'success' ? 'bg-[#00f0b5] text-black' : 'bg-[#ff4d00] text-white'
+                      }`}
+                  >
+                    {formMessage.text}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={formSubmitting}
+                  className={`w-full py-3 border-4 border-black text-sm font-black uppercase tracking-wider shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all duration-150 ${formSubmitting
+                    ? 'bg-slate-300 text-slate-500 cursor-not-allowed shadow-none translate-x-[2px] translate-y-[2px]'
+                    : 'bg-[#ffe600] text-black hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
                     }`}
                 >
-                  {formMessage.text}
-                </div>
-              )}
-
-              <button
-                type="submit"
-                disabled={formSubmitting}
-                className={`w-full py-3 border-4 border-black text-sm font-black uppercase tracking-wider shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all duration-150 ${formSubmitting
-                  ? 'bg-slate-300 text-slate-500 cursor-not-allowed shadow-none translate-x-[2px] translate-y-[2px]'
-                  : 'bg-[#ffe600] text-black hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
-                  }`}
-              >
-                {formSubmitting ? 'Čuvanje...' : 'Sačuvaj Karticu'}
-              </button>
-            </form>
+                  {formSubmitting ? 'Čuvanje...' : 'Sačuvaj Karticu'}
+                </button>
+              </form>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

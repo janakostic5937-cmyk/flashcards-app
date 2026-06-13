@@ -50,12 +50,12 @@ export default function DataList() {
     return bgs[index % bgs.length];
   };
 
-  const getTextColor = (bg) => {
-    return bg === 'bg-[#ff4d00]' ? 'text-white' : 'text-black';
+  const getTextColor = () => {
+    return 'text-black';
   };
 
-  const getBorderColor = (bg) => {
-    return bg === 'bg-[#ff4d00]' ? 'border-white' : 'border-black';
+  const getBorderColor = () => {
+    return 'border-black';
   };
 
   return (
