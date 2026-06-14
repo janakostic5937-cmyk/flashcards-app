@@ -19,7 +19,7 @@
       "fullName": "Jana Kostic",
       "username": "janaveb1",
       "email": "jana.kostic.5937@metropolitan.ac.rs",
-      "password": "jana01001",
+      "password": "jananovasifra",
       "role": "student",
       "institution": "Metropolitan",
       "studyField": "SI/III"
@@ -29,17 +29,27 @@
     {
       "id": "1",
       "nazivPredmeta": "Programiranje",
-      "authorId": 2
+      "authorId": 1
     },
     {
       "id": "2",
       "nazivPredmeta": "Matematika",
-      "authorId": 2
+      "authorId": 1
     },
     {
       "id": "3",
       "nazivPredmeta": "Istorija",
       "authorId": 1
+    },
+    {
+      "id": "625b",
+      "nazivPredmeta": "Fizika",
+      "authorId": "1"
+    },
+    {
+      "id": "49c3",
+      "nazivPredmeta": "SE310 Pitanja",
+      "authorId": "f6e4"
     }
   ],
   "cards": [
@@ -162,6 +172,88 @@
       "deckId": 2,
       "question": "Kako glasi formula za obim kruga?",
       "answer": "Obim kruga se izračunava po formuli O = 2πr, gde je r poluprečnik kruga."
+    },
+    {
+      "id": "3094",
+      "deckId": "49c3",
+      "question": "Šta je konstruisanje softvera?",
+      "answer": "Konstruisanje softvera predstavlja fazu razvoja u kojoj se sistem konkretno implementira kroz pisanje koda, ali obuhvata i aktivnosti kao što su testiranje, integracija komponenti, optimizacija i verifikacija ispravnosti. To nije samo kodiranje, već celokupan proces izgradnje funkcionalnog softverskog rešenja."
+    },
+    {
+      "id": "42d2",
+      "deckId": "49c3",
+      "question": "Razlika konstruisanje vs programiranje?",
+      "answer": "Programiranje se odnosi isključivo na pisanje koda, dok je konstruisanje širi pojam koji uključuje i planiranje kako će kod biti napisan, testiranje i povezivanje sa drugim delovima sistema."
+    },
+    {
+      "id": "60b5",
+      "deckId": "49c3",
+      "question": "Koje su aktivnosti razvoja softvera?",
+      "answer": "Definisanje problema, prikupljanje i analizu zahteva, planiranje, projektovanje arhitekture, kodiranje, testiranje i održavanje."
+    },
+    {
+      "id": "930f",
+      "deckId": "49c3",
+      "question": "Sta je algoritam?",
+      "answer": "Algoritam je precizno definisan skup koraka koji vode do rešenja određenog problema. Svaki korak je jasno određen i izvršava se u tačno definisanom redosledu, a rezultat je uvek predvidiv."
+    },
+    {
+      "id": "c448",
+      "deckId": "49c3",
+      "question": "Zasto testiranje nije dovoljno za kvalitet?",
+      "answer": "Testiranje može pronaći greške u implementaciji, ali ne može otkriti da li je napravljen pogrešan sistem ili da li su zahtevi pogrešno definisani. Kvalitet mora biti ugrađen od početka razvoja."
+    },
+    {
+      "id": "8913",
+      "deckId": "49c3",
+      "question": "Uloga dizajna u razvoju?",
+      "answer": "Dizajn povezuje zahteve sa implementacijom i testiranjem. On omogućava da se ideje pretvore u konkretna tehnička rešenja koja se mogu implementirati."
+    }
+  ],
+  "sessions": [
+    {
+      "id": "94aa",
+      "userId": "f6e4",
+      "deckId": "3",
+      "deckName": "Istorija",
+      "correct": 4,
+      "total": 5,
+      "percentage": 80,
+      "timestamp": "2026-06-14T13:14:31.239Z",
+      "rating": null
+    },
+    {
+      "id": "2910",
+      "userId": "f6e4",
+      "deckId": "1",
+      "deckName": "Programiranje",
+      "correct": 5,
+      "total": 8,
+      "percentage": 63,
+      "timestamp": "2026-06-14T13:18:15.031Z",
+      "rating": null
+    },
+    {
+      "id": "8e35",
+      "userId": "f6e4",
+      "deckId": "2",
+      "deckName": "Matematika",
+      "correct": 3,
+      "total": 7,
+      "percentage": 43,
+      "timestamp": "2026-06-14T13:21:04.935Z",
+      "rating": "hard"
+    },
+    {
+      "id": "bd8a",
+      "userId": "f6e4",
+      "deckId": "49c3",
+      "deckName": "SE310 Pitanja",
+      "correct": 6,
+      "total": 6,
+      "percentage": 100,
+      "timestamp": "2026-06-14T17:23:17.071Z",
+      "rating": "easy"
     }
   ]
 }

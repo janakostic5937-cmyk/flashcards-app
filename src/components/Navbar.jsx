@@ -13,11 +13,15 @@ export default function Navbar() {
   const baseLinks = [
     { name: 'Početna', path: '/' },
     { name: 'Špilovi', path: '/decks' },
-    { name: 'Kartice', path: '/cards' },
-    { name: 'Kviz', path: '/quiz' },
   ];
 
   const navLinks = [...baseLinks];
+  if (user) {
+    if (role === 'Korisnik') {
+      navLinks.push({ name: 'Moji špilovi', path: '/my-decks' });
+    }
+    navLinks.push({ name: 'Profil', path: '/profile' });
+  }
   if (user && role === 'Administrator') {
     navLinks.push({ name: 'Admin Panel', path: '/admin' });
   }

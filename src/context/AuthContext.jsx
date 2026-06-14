@@ -170,8 +170,17 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('auth_user');
   };
 
+  // Funkcija za ažuriranje lozinke u sesiji
+  const updatePassword = (newPassword) => {
+    if (user) {
+      const updatedUser = { ...user, password: newPassword };
+      setUser(updatedUser);
+      localStorage.setItem('auth_user', JSON.stringify(updatedUser));
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, role, login, register, logout }}>
+    <AuthContext.Provider value={{ user, role, login, register, logout, updatePassword }}>
       {children}
     </AuthContext.Provider>
   );

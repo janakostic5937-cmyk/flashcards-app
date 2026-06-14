@@ -9,6 +9,8 @@ import Register from './pages/Register';
 import DataList from './pages/DataList';
 import DataDetail from './pages/DataDetail';
 import Admin from './pages/Admin';
+import Profile from './pages/Profile';
+import MyDecks from './pages/MyDecks';
 
 // komponenta za stranice
 function PagePlaceholder() {
@@ -16,7 +18,6 @@ function PagePlaceholder() {
   const titles = {
     decks: 'Špilovi',
     cards: 'Kartice',
-    quiz: 'Kviz',
     login: 'Prijava',
     register: 'Registracija',
     terms: 'Uslovi Korišćenja',
@@ -30,7 +31,7 @@ function PagePlaceholder() {
 
   const displayName = titles[pageName] || 'Stranica';
 
-  if (pageName === 'cards' || pageName === 'quiz') {
+  if (pageName === 'cards') {
     return null;
   }
 
@@ -74,6 +75,22 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <DataDetail />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute>
+                    <Profile />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/my-decks"
+                element={
+                  <ProtectedRoute allowedRoles={['Korisnik']}>
+                    <MyDecks />
                   </ProtectedRoute>
                 }
               />

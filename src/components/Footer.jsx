@@ -6,8 +6,7 @@ export default function Footer() {
   const productLinks = [
     { name: 'Početna', path: '/' },
     { name: 'Špilovi', path: '/decks' },
-    { name: 'Kartice', path: '/cards' },
-    { name: 'Kviz', path: '/quiz' },
+    { name: 'Moji špilovi', path: '/my-decks' },
   ];
 
   const communityLinks = [

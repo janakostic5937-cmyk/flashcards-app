@@ -70,7 +70,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Desna strana: Interaktivna kartica (Tirkizni kontejner) */}
+        {/* Desni kontejner sa karticom */}
         <div className="lg:col-span-5 p-8 lg:p-16 flex flex-col items-center justify-center bg-[#00f0b5] border-t-4 lg:border-t-0 lg:border-l-4 border-black">
           <div className="perspective-1000 w-full max-w-[340px] h-[240px]">
             <div
