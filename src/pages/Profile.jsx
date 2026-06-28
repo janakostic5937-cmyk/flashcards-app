@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function Profile() {
-  const { user, updatePassword } = useAuth();
+  const { user, updatePassword, logout } = useAuth();
+  const navigate = useNavigate();
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -13,6 +14,54 @@ export default function Profile() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [formMessage, setFormMessage] = useState(null);
+
+  const [deletePassword, setDeletePassword] = useState('');
+  const [deleteSubmitting, setDeleteSubmitting] = useState(false);
+  const [deleteMessage, setDeleteMessage] = useState(null);
+
+  const handleDeleteAccount = async (e) => {
+    e.preventDefault();
+    setDeleteMessage(null);
+
+    if (!deletePassword) {
+      setDeleteMessage({ type: 'error', text: 'Morate uneti trenutnu lozinku!' });
+      return;
+    }
+
+    if (deletePassword !== user.password) {
+      setDeleteMessage({ type: 'error', text: 'Uneti lozinka nije ispravna.' });
+      return;
+    }
+
+    const confirmDelete = window.confirm(
+      'Da li ste potpuno sigurni da želite trajno da obrišete nalog? Ova akcija se ne može poništiti.'
+    );
+    if (!confirmDelete) return;
+
+    try {
+      setDeleteSubmitting(true);
+      const targetUserId = typeof user.id === 'number' ? Number(user.id) : user.id;
+
+      const response = await fetch(`http://localhost:3000/users/${targetUserId}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Brisanje naloga sa servera nije uspelo.');
+      }
+
+      setDeleteMessage({ type: 'success', text: 'Nalog je uspešno obrisan. Bićete preusmereni...' });
+
+      setTimeout(() => {
+        logout();
+        navigate('/');
+      }, 2000);
+    } catch (err) {
+      console.error(err);
+      setDeleteMessage({ type: 'error', text: err.message || 'Greška pri brisanju naloga.' });
+      setDeleteSubmitting(false);
+    }
+  };
 
   const handleChangePassword = async (e) => {
     e.preventDefault();
@@ -29,7 +78,7 @@ export default function Profile() {
     }
 
     if (newPassword.length < 8) {
-      setFormMessage({ type: 'error', text: 'Nova lozinka must imati najmanje 8 karaktera.' });
+      setFormMessage({ type: 'error', text: 'Nova lozinka mora imati najmanje 8 karaktera.' });
       return;
     }
 
@@ -308,6 +357,51 @@ export default function Profile() {
                   }`}
               >
                 {formSubmitting ? 'Čuvanje...' : 'Sačuvaj lozinku'}
+              </button>
+            </form>
+          </div>
+
+          {/* Brisanje naloga */}
+          <div className="border-4 border-black bg-white p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+            <h2 className="text-xl font-black uppercase border-b-2 border-black pb-3 mb-6 text-[#ff4d00]">
+              Brisanje naloga
+            </h2>
+            <p className="text-[10px] font-bold text-slate-700 font-sans mb-4 leading-relaxed">
+              Brisanjem naloga trajno uklanjate sve svoje podatke, špilove i istoriju sesija. Ova akcija je nepovratna.
+            </p>
+            <form onSubmit={handleDeleteAccount} className="space-y-4">
+              <div className="space-y-1">
+                <label className="block text-[10px] font-black uppercase text-slate-700">
+                  Unesite trenutnu lozinku
+                </label>
+                <input
+                  type="password"
+                  value={deletePassword}
+                  onChange={(e) => setDeletePassword(e.target.value)}
+                  placeholder="Potvrdite lozinku"
+                  className="w-full border-2 border-black p-2.5 text-xs font-bold bg-[#ebebeb] focus:bg-[#ff4d00]/10 focus:bg-white focus:outline-none placeholder-slate-400 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus:translate-x-[0.5px] focus:translate-y-[0.5px] focus:shadow-none"
+                  required
+                />
+              </div>
+
+              {deleteMessage && (
+                <div
+                  className={`border-2 border-black p-3 text-[10px] font-black uppercase ${deleteMessage.type === 'success' ? 'bg-[#00f0b5] text-black' : 'bg-[#ff4d00] text-white'
+                    }`}
+                >
+                  {deleteMessage.text}
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={deleteSubmitting}
+                className={`w-full py-3 border-2 border-black text-xs font-black uppercase tracking-wider shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all duration-100 cursor-pointer ${deleteSubmitting
+                  ? 'bg-slate-300 text-slate-500 cursor-not-allowed shadow-none translate-x-[1.5px] translate-y-[1.5px]'
+                  : 'bg-[#ff4d00] text-white hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
+                  }`}
+              >
+                {deleteSubmitting ? 'Brisanje...' : 'Trajno obriši nalog'}
               </button>
             </form>
           </div>

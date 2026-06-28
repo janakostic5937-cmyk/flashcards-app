@@ -8,12 +8,20 @@ export default function DataList() {
   const [cardsCount, setCardsCount] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
 
   const [newDeckName, setNewDeckName] = useState('');
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [formMessage, setFormMessage] = useState(null);
   const [retryTrigger, setRetryTrigger] = useState(0);
+
+  const filteredDecks = decks.filter((deck) => {
+    if (role === 'Korisnik' && deck.active === false) {
+      return false;
+    }
+    return deck.nazivPredmeta.toLowerCase().includes(searchTerm.toLowerCase());
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -112,6 +120,30 @@ export default function DataList() {
     }
   };
 
+  const handleToggleActive = async (deckId, currentActive) => {
+    try {
+      const response = await fetch(`http://localhost:3000/decks/${deckId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ active: !currentActive })
+      });
+
+      if (!response.ok) {
+        throw new Error('Nije uspelo ažuriranje statusa špila.');
+      }
+
+      const updatedDeck = await response.json();
+      setDecks((prev) =>
+        prev.map((d) => (d.id === deckId ? { ...d, active: updatedDeck.active } : d))
+      );
+    } catch (err) {
+      console.error(err);
+      alert(err.message || 'Greška pri ažuriranju statusa.');
+    }
+  };
+
   const getCardBg = (index) => {
     const bgs = ['bg-[#00f0b5]', 'bg-[#ffe600]', 'bg-[#ff4d00]', 'bg-white'];
     return bgs[index % bgs.length];
@@ -129,6 +161,33 @@ export default function DataList() {
           </p>
         </div>
       </div>
+
+      {/* Pretraga špilova */}
+      {!loading && !error && (
+        <div className="mb-8 max-w-md">
+          <label className="block text-xs font-black uppercase tracking-wider text-slate-700 mb-2">
+            Pretraži špil:
+          </label>
+          <div className="relative border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Unesite naziv špila"
+              className="w-full px-4 py-3 font-mono text-xs font-bold focus:outline-none placeholder-slate-400 bg-white"
+            />
+            {searchTerm && (
+              <button
+                type="button"
+                onClick={() => setSearchTerm('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-black uppercase hover:text-[#ff4d00] transition-colors cursor-pointer font-mono"
+              >
+                Ukloni
+              </button>
+            )}
+          </div>
+        </div>
+      )}
 
       {loading && (
         <div className="flex flex-col items-center justify-center py-20">
@@ -154,27 +213,36 @@ export default function DataList() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* lista špilova */}
           <div className={role === 'Administrator' ? 'lg:col-span-8 space-y-8' : 'lg:col-span-12'}>
-            {decks.length === 0 ? (
+            {filteredDecks.length === 0 ? (
               <div className="border-4 border-black bg-white p-12 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] text-center">
                 <h3 className="text-2xl font-black uppercase mb-4">Nema pronađenih špilova</h3>
-                <p className="font-bold text-slate-700 font-sans text-xs">Trenutno nema zvaničnih špilova u bazi.</p>
+                <p className="font-bold text-slate-700 font-sans text-xs">
+                  {decks.length === 0
+                    ? 'Trenutno nema zvaničnih špilova u bazi.'
+                    : 'Nijedan špil ne odgovara unetom kriterijumu pretrage.'}
+                </p>
               </div>
             ) : (
               <div className={role === 'Administrator' ? 'grid grid-cols-1 sm:grid-cols-2 gap-6' : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'}>
-                {decks.map((deck, idx) => {
+                {filteredDecks.map((deck, idx) => {
                   const cardBg = getCardBg(idx);
                   const count = cardsCount[deck.id] || 0;
 
                   return (
                     <div
                       key={deck.id}
-                      className={`border-4 border-black ${cardBg} p-6 flex flex-col justify-between shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all duration-150`}
+                      className={`border-4 border-black ${cardBg} p-6 flex flex-col justify-between shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all duration-150 ${deck.active === false ? 'opacity-70 grayscale-[25%]' : ''}`}
                     >
                       <div>
                         <div className="flex justify-between items-center mb-6">
                           <span className="border-2 border-black bg-white text-black px-2 py-0.5 text-[10px] font-black uppercase">
                             Špil #{deck.id}
                           </span>
+                          {role === 'Administrator' && deck.active === false && (
+                            <span className="border-2 border-black bg-[#ff4d00] text-white px-2 py-0.5 text-[10px] font-black uppercase shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)]">
+                              Deaktivirano
+                            </span>
+                          )}
                         </div>
 
                         <h3 className="text-2xl font-black uppercase tracking-tight leading-none mb-6 text-black">
@@ -182,22 +250,37 @@ export default function DataList() {
                         </h3>
                       </div>
 
-                      <div className="border-t-2 border-black pt-4 mt-6 flex justify-between items-center">
-                        <div className="flex flex-col">
-                          <span className="text-[10px] font-black uppercase text-black">
-                            Ukupno kartica
-                          </span>
-                          <span className="text-2xl font-black text-black">
-                            {count}
-                          </span>
+                      <div className="border-t-2 border-black pt-4 mt-6 flex flex-col gap-4">
+                        <div className="flex justify-between items-center">
+                          <div className="flex flex-col">
+                            <span className="text-[10px] font-black uppercase text-black">
+                              Ukupno kartica
+                            </span>
+                            <span className="text-2xl font-black text-black">
+                              {count}
+                            </span>
+                          </div>
+
+                          <Link
+                            to={`/decks/${deck.id}`}
+                            className="px-4 py-2 border-2 border-black bg-white text-black text-xs font-black uppercase shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all duration-150"
+                          >
+                            Otvori špil
+                          </Link>
                         </div>
 
-                        <Link
-                          to={`/decks/${deck.id}`}
-                          className="px-4 py-2 border-2 border-black bg-white text-black text-xs font-black uppercase shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all duration-150"
-                        >
-                          Otvori špil
-                        </Link>
+                        {role === 'Administrator' && (
+                          <button
+                            type="button"
+                            onClick={() => handleToggleActive(deck.id, deck.active !== false)}
+                            className={`w-full py-2 border-2 border-black text-xs font-black uppercase tracking-wider transition-all duration-150 cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none ${deck.active !== false
+                              ? 'bg-white text-slate-700 hover:bg-[#ff4d00] hover:text-white'
+                              : 'bg-[#00f0b5] text-black hover:bg-[#00f0b5]/80'
+                              }`}
+                          >
+                            {deck.active !== false ? ' Deaktiviraj' : ' Aktiviraj'}
+                          </button>
+                        )}
                       </div>
                     </div>
                   );

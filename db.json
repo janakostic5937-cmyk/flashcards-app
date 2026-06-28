@@ -23,6 +23,27 @@
       "role": "student",
       "institution": "Metropolitan",
       "studyField": "SI/III"
+    },
+    {
+      "id": "430b",
+      "fullName": "Test Korisnik",
+      "username": "Test Korisnik",
+      "email": "testkorisnik@gmail.com",
+      "password": "sifra1234",
+      "role": "student",
+      "institution": "Metropolitan",
+      "studyField": "SI"
+    },
+    {
+      "id": "0f6b",
+      "fullName": "Test Nastavnik",
+      "username": "Test Nastavnik",
+      "email": "testnastavnik@gmail.com",
+      "password": "sifra1234",
+      "role": "nastavnik",
+      "organization": "Univerzitet Primer",
+      "adminRegCode": "REG-ADM10",
+      "adminKey": "REG-ADM10"
     }
   ],
   "decks": [
@@ -34,7 +55,8 @@
     {
       "id": "2",
       "nazivPredmeta": "Matematika",
-      "authorId": 1
+      "authorId": 1,
+      "active": false
     },
     {
       "id": "3",
@@ -50,6 +72,11 @@
       "id": "49c3",
       "nazivPredmeta": "SE310 Pitanja",
       "authorId": "f6e4"
+    },
+    {
+      "id": "0043",
+      "nazivPredmeta": "SE330",
+      "authorId": "430b"
     }
   ],
   "cards": [
@@ -208,6 +235,36 @@
       "deckId": "49c3",
       "question": "Uloga dizajna u razvoju?",
       "answer": "Dizajn povezuje zahteve sa implementacijom i testiranjem. On omogućava da se ideje pretvore u konkretna tehnička rešenja koja se mogu implementirati."
+    },
+    {
+      "id": "b0a1",
+      "deckId": "0043",
+      "question": "Koja je osnovna razlika između agilnog pristupa i tradicionalnog vodopadnog procesa u pogledu upravljanja promenama?",
+      "answer": "Tradicionalni vodopadni proces podrazumeva definisanje svih zahteva unapred i striktno praćenje plana, što otežava reagovanje na promene tokom projekta. Nasuprot tome, agilni pristup je dizajniran da bude fleksibilan i prilagodljiv, omogućavajući timovima da efikasno odgovore na neočekivane izmene zahteva korisnika ili izazove koji se pojavljuju tokom razvoja."
+    },
+    {
+      "id": "fda8",
+      "deckId": "0043",
+      "question": "Zašto je za uspeh agilnog pristupa ključna promena načina razmišljanja (\"mindset shift\") članova tima?",
+      "answer": "Efikasnost primene agilnih praksi direktno zavisi od stava tima. Ako članovi tima na prakse (kao što su dnevni sastanci) gledaju kao na teret ili samo kao na izveštavanje o statusu, rezultati će biti minimalni. Kada tim deli stav da su te prakse prilika za zajedničko rešavanje problema i usklađivanje ciljeva, to vodi ka većoj produktivnosti i boljim rezultatima."
+    },
+    {
+      "id": "672c",
+      "deckId": "0043",
+      "question": "Koje su četiri osnovne vrednosti definisane u \"Manifestu za Agilan Razvoj Softvera\"?",
+      "answer": "Četiri osnovne vrednosti su:\n\nPojedinci i interakcije nad procesima i alatima;\nFunkcionalni softver nad opsežnom dokumentacijom;\nSaradnja sa korisnikom nad pregovorima o ugovorima;\nReagovanje na promene nad praćenjem plana"
+    },
+    {
+      "id": "109e",
+      "deckId": "0043",
+      "question": "ta se podrazumeva pod pojmom MVP (Minimalno održiv proizvod) u LEAN pristupu?",
+      "answer": "MVP (Minimum Viable Product) predstavlja verziju aplikacije koja sadrži samo osnovne, ključne funkcionalnosti koje omogućavaju korisnicima da dobiju vrednost od proizvoda. Cilj je da se osnovna ideja testira brzo, dok se složenije funkcionalnosti dodaju kasnije kroz iterativni proces na osnovu povratnih informacija."
+    },
+    {
+      "id": "7185",
+      "deckId": "0043",
+      "question": "Koje su četiri glavne Scrum ceremonije i koja je njihova svrha?",
+      "answer": "Glavne Scrum ceremonije su:\n\nSprint Planning: Tim i Product Owner određuju zadatke za sprint i prioritete.\n\nDaily Scrum: Kratak dnevni sastanak za koordinaciju i identifikaciju prepreka.\n\nSprint Review: Pregled urađenog posla na kraju sprinta uz povratne informacije stakeholder-a.\n\n\nSprint Retrospective: Interna analiza tima o tome šta je bilo dobro i šta treba poboljšati u narednim sprintovima."
     }
   ],
   "sessions": [
@@ -253,6 +310,50 @@
       "total": 6,
       "percentage": 100,
       "timestamp": "2026-06-14T17:23:17.071Z",
+      "rating": "easy"
+    },
+    {
+      "id": "8cbe",
+      "userId": "f6e4",
+      "deckId": "49c3",
+      "deckName": "SE310 Pitanja",
+      "correct": 2,
+      "total": 3,
+      "percentage": 67,
+      "timestamp": "2026-06-17T16:03:15.666Z",
+      "rating": "easy"
+    },
+    {
+      "id": "e00c",
+      "userId": "f6e4",
+      "deckId": "1",
+      "deckName": "Programiranje",
+      "correct": 5,
+      "total": 8,
+      "percentage": 63,
+      "timestamp": "2026-06-18T12:13:22.308Z",
+      "rating": "easy"
+    },
+    {
+      "id": "f5f9",
+      "userId": "430b",
+      "deckId": "0043",
+      "deckName": "SE330",
+      "correct": 3,
+      "total": 5,
+      "percentage": 60,
+      "timestamp": "2026-06-28T16:32:38.273Z",
+      "rating": "easy"
+    },
+    {
+      "id": "0acb",
+      "userId": "430b",
+      "deckId": "0043",
+      "deckName": "SE330",
+      "correct": 4,
+      "total": 5,
+      "percentage": 80,
+      "timestamp": "2026-06-28T16:34:43.580Z",
       "rating": "easy"
     }
   ]

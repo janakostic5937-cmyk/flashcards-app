@@ -8,11 +8,16 @@ export default function MyDecks() {
   const [cardsCount, setCardsCount] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const [newDeckName, setNewDeckName] = useState('');
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [formMessage, setFormMessage] = useState(null);
   const [retryTrigger, setRetryTrigger] = useState(0);
+
+  const filteredDecks = myDecks.filter((deck) =>
+    deck.nazivPredmeta.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   useEffect(() => {
     const fetchMyDecksAndCards = async () => {
@@ -124,6 +129,33 @@ export default function MyDecks() {
         </p>
       </div>
 
+      {/* Pretraga špilova */}
+      {!loading && !error && (
+        <div className="mb-8 max-w-md">
+          <label className="block text-xs font-black uppercase tracking-wider text-slate-700 mb-2">
+            Pretraži špil:
+          </label>
+          <div className="relative border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Unesite naziv špila"
+              className="w-full px-4 py-3 font-mono text-xs font-bold focus:outline-none placeholder-slate-400 bg-white"
+            />
+            {searchTerm && (
+              <button
+                type="button"
+                onClick={() => setSearchTerm('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-black uppercase hover:text-[#ff4d00] transition-colors cursor-pointer font-mono"
+              >
+                Ukloni
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Lista špilova */}
         <div className="lg:col-span-8 space-y-8">
@@ -147,18 +179,22 @@ export default function MyDecks() {
             </div>
           )}
 
-          {!loading && !error && myDecks.length === 0 && (
+          {!loading && !error && filteredDecks.length === 0 && (
             <div className="border-4 border-black bg-white p-12 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] text-center">
-              <h3 className="text-xl font-black uppercase mb-4">Još uvek nemate dodate špilove</h3>
+              <h3 className="text-xl font-black uppercase mb-4">
+                {myDecks.length === 0 ? 'Još uvek nemate dodate špilove' : 'Nema pronađenih špilova'}
+              </h3>
               <p className="font-bold text-slate-700 font-sans text-xs mb-6">
-                Kreirajte svoj prvi špil koristeći formu sa desne strane.
+                {myDecks.length === 0
+                  ? 'Kreirajte svoj prvi špil koristeći formu sa desne strane.'
+                  : 'Nijedan špil ne odgovara unetom kriterijumu pretrage.'}
               </p>
             </div>
           )}
 
-          {!loading && !error && myDecks.length > 0 && (
+          {!loading && !error && filteredDecks.length > 0 && (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {myDecks.map((deck, idx) => {
+              {filteredDecks.map((deck, idx) => {
                 const cardBg = getCardBg(idx);
                 const count = cardsCount[deck.id] || 0;
 

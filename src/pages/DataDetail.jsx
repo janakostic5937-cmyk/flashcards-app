@@ -37,6 +37,11 @@ export default function DataDetail() {
         }
         const deckData = await deckRes.json();
 
+        const isOwner = deckData && String(deckData.authorId) === String(user?.id);
+        if (role === 'Korisnik' && deckData.active === false && !isOwner) {
+          throw new Error('Ovaj špil je trenutno deaktiviran od strane nastavnika.');
+        }
+
         // uzimanje svih kartica i filtriranje po id
         const cardsRes = await fetch(`http://localhost:3000/cards`);
         if (!cardsRes.ok) {
@@ -60,7 +65,7 @@ export default function DataDetail() {
     };
 
     fetchDeckAndCards();
-  }, [id]);
+  }, [id, role, user]);
 
 
   const handleFlip = () => {
