@@ -107,6 +107,30 @@ export default function MyDecks() {
     }
   };
 
+  const handleDeleteDeck = async (deckId) => {
+    if (!window.confirm('Da li ste sigurni da želite da obrišete ovaj špil?')) {
+      return;
+    }
+    
+    try {
+      const response = await fetch(`http://localhost:3000/decks/${deckId}`, {
+        method: 'DELETE'
+      });
+
+      if (!response.ok) {
+        throw new Error('Brisanje špila nije uspelo.');
+      }
+
+      setMyDecks((prev) => prev.filter(deck => deck.id !== deckId));
+      setFormMessage({ type: 'success', text: 'Špil je uspešno obrisan!' });
+      setTimeout(() => setFormMessage(null), 3000);
+    } catch (err) {
+      console.error(err);
+      setFormMessage({ type: 'error', text: err.message || 'Greška pri brisanju špila.' });
+      setTimeout(() => setFormMessage(null), 3000);
+    }
+  };
+
   const getCardBg = (index) => {
     const bgs = ['bg-[#00f0b5]', 'bg-[#ffe600]', 'bg-[#ff4d00]', 'bg-white'];
     return bgs[index % bgs.length];
@@ -225,12 +249,20 @@ export default function MyDecks() {
                         </span>
                       </div>
 
-                      <Link
-                        to={`/decks/${deck.id}`}
-                        className="px-4 py-2 border-2 border-black bg-white text-black text-xs font-black uppercase shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all duration-150"
-                      >
-                        Otvori špil
-                      </Link>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => handleDeleteDeck(deck.id)}
+                          className="px-3 py-2 border-2 border-black bg-[#ff4d00] text-white text-[10px] font-black uppercase shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all duration-150 cursor-pointer"
+                        >
+                          Obriši
+                        </button>
+                        <Link
+                          to={`/decks/${deck.id}`}
+                          className="px-4 py-2 border-2 border-black bg-white text-black text-xs font-black uppercase shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all duration-150"
+                        >
+                          Otvori špil
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 );

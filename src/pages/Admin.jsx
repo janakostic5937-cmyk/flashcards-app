@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function Admin() {
+  const { user } = useAuth();
   const [users, setUsers] = useState([]);
   const [decks, setDecks] = useState([]);
   const [cards, setCards] = useState([]);
@@ -40,6 +42,27 @@ export default function Admin() {
 
     fetchAdminData();
   }, []);
+
+  const handleDeleteDeck = async (deckId) => {
+    if (!window.confirm('Da li ste sigurni da želite da obrišete ovaj špil?')) {
+      return;
+    }
+    
+    try {
+      const response = await fetch(`http://localhost:3000/decks/${deckId}`, {
+        method: 'DELETE'
+      });
+
+      if (!response.ok) {
+        throw new Error('Brisanje špila nije uspelo.');
+      }
+
+      setDecks((prev) => prev.filter(deck => deck.id !== deckId));
+    } catch (err) {
+      console.error(err);
+      alert(err.message || 'Greška pri brisanju špila.');
+    }
+  };
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 font-mono">
@@ -206,7 +229,15 @@ export default function Admin() {
                         </span>
                       </div>
                       <h4 className="text-sm font-black uppercase">{deck.nazivPredmeta}</h4>
-                      <div className="mt-4 flex justify-end">
+                      <div className="mt-4 flex justify-end gap-2">
+                        {String(deck.authorId) === String(user?.id) && (
+                          <button
+                            onClick={() => handleDeleteDeck(deck.id)}
+                            className="px-3 py-1.5 border border-black bg-[#ff4d00] text-white text-[10px] font-black uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all duration-150 cursor-pointer"
+                          >
+                            Obriši
+                          </button>
+                        )}
                         <Link
                           to={`/decks/${deck.id}`}
                           className="px-3 py-1.5 border border-black bg-white text-black text-[10px] font-black uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all duration-150"
